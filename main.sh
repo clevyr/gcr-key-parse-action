@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
-# REQUIRED VARIABLES:
-#   GCLOUD_KEY_FILE
+set -euo pipefail
 
 # Login to the gcloud cli
 gcloud auth activate-service-account --key-file - <<< $GCLOUD_KEY_FILE
