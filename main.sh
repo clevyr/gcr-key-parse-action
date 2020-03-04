@@ -2,15 +2,15 @@
 
 # REQUIRED VARIABLES:
 #   GCLOUD_KEY_FILE
-#   PROJECT_ID
 
 # Login to the gcloud cli
 gcloud auth activate-service-account --key-file - <<< $GCLOUD_KEY_FILE
 
 # Get variables from gcloud
-CLUSTER=$(gcloud container --project $PROJECT_ID clusters list --format json | jq '.[]["name"]' | xargs)
-REGION=$(gcloud container --project $PROJECT_ID clusters list --format json | jq '.[]["zone"]' | xargs)
-DOCKER_PASS=$(gcloud auth print-access-token)
+PROJECT_ID="$(jq -r .project_id <<< $GCLOUD_KEY_FILE)"
+CLUSTER="$(gcloud container --project $PROJECT_ID clusters list --format json | jq '.[]["name"]' | xargs)"
+REGION="$(gcloud container --project $PROJECT_ID clusters list --format json | jq '.[]["zone"]' | xargs)"
+DOCKER_PASS="$(gcloud auth print-access-token)"
 
 # Set all outputs
 printf "::set-output name=gcloud_projectId::%s\n" "$PROJECT_ID"
