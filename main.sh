@@ -6,7 +6,7 @@ set -euo pipefail
 gcloud auth activate-service-account --key-file - <<< $GCLOUD_KEY_FILE
 
 # Get variables from gcloud
-PROJECT_ID="$(jq -r .project_id <<< $GCLOUD_KEY_FILE)"
+PROJECT_ID="${HOST_PROJECT:-momma-motus}"
 CLUSTER="$(gcloud container --project $PROJECT_ID clusters list --format json | jq '.[]["name"]' | xargs)"
 REGION="$(gcloud container --project $PROJECT_ID clusters list --format json | jq '.[]["zone"]' | xargs)"
 DOCKER_PASS="$(gcloud auth print-access-token)"
